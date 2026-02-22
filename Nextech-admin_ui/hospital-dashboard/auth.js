@@ -2,7 +2,7 @@
   'use strict';
 
   const AUTH_KEY = 'hospital_dashboard_auth';
-  const API_BASE = "http://localhost:8080";
+  const API_BASE = "http://159.69.50.201:8081";
 
   function isLoggedIn() {
     return !!sessionStorage.getItem(AUTH_KEY);
