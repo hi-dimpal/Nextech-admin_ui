@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hospital Resource Dashboard | MackAthon</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="dashboard">
+    <header class="header">
+      <div class="header-content">
+        <div class="logo">
+          <div class="logo-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+            </svg>
+          </div>
+          <h1>Hospital Resource Dashboard</h1>
+        </div>
+        <div class="header-meta">
+          <span class="last-updated">Last updated: <span id="lastUpdated">—</span></span>
+          <a href="notifications.html" class="btn-notification" id="btnNotification" aria-label="Notifications">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+            <span class="notification-badge" id="notificationBadge">3</span>
+          </a>
+          <a href="login.html" class="btn-logout" id="btnLogout">Logout</a>
+          <button type="button" class="btn-refresh" id="btnRefresh" aria-label="Refresh data">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 4v6h-6M1 20v-6h6"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
+            Refresh
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <main class="main">
+      <section class="grid grid--primary">
+        <!-- Hospital Beds -->
+        <article class="card card--beds" data-card="beds">
+          <div class="card-header">
+            <span class="card-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+            </span>
+            <h2>Hospital Bed Availability</h2>
+          </div>
+          <div class="card-body">
+            <div class="stat-row stat-row--editable">
+              <span class="stat-label">Available</span>
+              <div class="qty-control">
+                <button type="button" class="btn-qty" data-action="dec" data-target="bedsAvailable" aria-label="Decrease">−</button>
+                <span class="stat-value" id="bedsAvailable">—</span>
+                <button type="button" class="btn-qty" data-action="inc" data-target="bedsAvailable" aria-label="Increase">+</button>
+              </div>
+            </div>
+            <div class="stat-row stat-row--editable">
+              <span class="stat-label">Allotted (Occupied)</span>
+              <div class="qty-control">
+                <button type="button" class="btn-qty" data-action="dec" data-target="bedsAllotted" aria-label="Decrease">−</button>
+                <span class="stat-value" id="bedsAllotted">—</span>
+                <button type="button" class="btn-qty" data-action="inc" data-target="bedsAllotted" aria-label="Increase">+</button>
+              </div>
+            </div>
+            <div class="stat-row">
+              <span class="stat-label">Total Capacity</span>
+              <span class="stat-value" id="bedsTotal">—</span>
+            </div>
+            <div class="progress-bar" aria-label="Bed occupancy">
+              <div class="progress-fill" id="bedsProgress" style="width: 0%"></div>
+            </div>
+          </div>
+        </article>
+
+        <!-- ICU Capacity -->
+        <article class="card card--icu" data-card="icu">
+          <div class="card-header">
+            <span class="card-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8h1a4 4 0 0 1 0 8h-1M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg>
+            </span>
+            <h2>ICU Capacity</h2>
+          </div>
+          <div class="card-body">
+            <div class="stat-row stat-row--editable">
+              <span class="stat-label">ICU Available</span>
+              <div class="qty-control">
+                <button type="button" class="btn-qty" data-action="dec" data-target="icuAvailable" aria-label="Decrease">−</button>
+                <span class="stat-value" id="icuAvailable">—</span>
+                <button type="button" class="btn-qty" data-action="inc" data-target="icuAvailable" aria-label="Increase">+</button>
+              </div>
+            </div>
+            <div class="stat-row stat-row--editable">
+              <span class="stat-label">ICU Allotted</span>
+              <div class="qty-control">
+                <button type="button" class="btn-qty" data-action="dec" data-target="icuAllotted" aria-label="Decrease">−</button>
+                <span class="stat-value" id="icuAllotted">—</span>
+                <button type="button" class="btn-qty" data-action="inc" data-target="icuAllotted" aria-label="Increase">+</button>
+              </div>
+            </div>
+            <div class="stat-row stat-row--editable">
+              <span class="stat-label">Ventilators Available</span>
+              <div class="qty-control">
+                <button type="button" class="btn-qty" data-action="dec" data-target="ventilatorsAvailable" aria-label="Decrease">−</button>
+                <span class="stat-value" id="ventilatorsAvailable">—</span>
+                <button type="button" class="btn-qty" data-action="inc" data-target="ventilatorsAvailable" aria-label="Increase">+</button>
+              </div>
+            </div>
+            <div class="stat-row stat-row--editable">
+              <span class="stat-label">Ventilators Allotted</span>
+              <div class="qty-control">
+                <button type="button" class="btn-qty" data-action="dec" data-target="ventilatorsAllotted" aria-label="Decrease">−</button>
+                <span class="stat-value" id="ventilatorsAllotted">—</span>
+                <button type="button" class="btn-qty" data-action="inc" data-target="ventilatorsAllotted" aria-label="Increase">+</button>
+              </div>
+            </div>
+            <div class="progress-bar progress-bar--warning" aria-label="ICU occupancy">
+              <div class="progress-fill" id="icuProgress" style="width: 0%"></div>
+            </div>
+          </div>
+        </article>
+
+        <!-- Oxygen -->
+        <article class="card card--oxygen" data-card="oxygen">
+          <div class="card-header">
+            <span class="card-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a10 10 0 0 1 10 10c0 5.52-4.48 10-10 10S2 17.52 2 12 6.48 2 12 2z"/><circle cx="12" cy="12" r="4"/><path d="M12 8v8M8 12h8"/></svg>
+            </span>
+            <h2>Oxygen Availability</h2>
+          </div>
+          <div class="card-body">
+            <div class="stat-row stat-row--editable">
+              <span class="stat-label">Cylinders Available</span>
+              <div class="qty-control">
+                <button type="button" class="btn-qty" data-action="dec" data-target="oxygenCylinders" aria-label="Decrease">−</button>
+                <span class="stat-value" id="oxygenCylinders">—</span>
+                <button type="button" class="btn-qty" data-action="inc" data-target="oxygenCylinders" aria-label="Increase">+</button>
+              </div>
+            </div>
+            <div class="stat-row stat-row--editable">
+              <span class="stat-label">Cylinders Allotted</span>
+              <div class="qty-control">
+                <button type="button" class="btn-qty" data-action="dec" data-target="oxygenAllotted" aria-label="Decrease">−</button>
+                <span class="stat-value" id="oxygenAllotted">—</span>
+                <button type="button" class="btn-qty" data-action="inc" data-target="oxygenAllotted" aria-label="Increase">+</button>
+              </div>
+            </div>
+            <div class="stat-row">
+              <span class="stat-label">Central Supply Status</span>
+              <span class="badge" id="oxygenStatus">—</span>
+            </div>
+            <div class="slider-row">
+              <label for="oxygenSlider">Simulate stock level</label>
+              <input type="range" id="oxygenSlider" min="0" max="100" value="75" aria-label="Oxygen stock level">
+            </div>
+          </div>
+        </article>
+
+        <!-- Ambulance -->
+        <article class="card card--ambulance" data-card="ambulance">
+          <div class="card-header">
+            <span class="card-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+            </span>
+            <h2>Ambulance Status</h2>
+          </div>
+          <div class="card-body">
+            <div class="ambulance-grid ambulance-grid--editable">
+              <div class="ambulance-item">
+                <span class="stat-label">Available</span>
+                <div class="qty-control">
+                  <button type="button" class="btn-qty btn-qty--sm" data-action="dec" data-target="ambulanceAvailable" aria-label="Decrease">−</button>
+                  <span class="stat-value" id="ambulanceAvailable">—</span>
+                  <button type="button" class="btn-qty btn-qty--sm" data-action="inc" data-target="ambulanceAvailable" aria-label="Increase">+</button>
+                </div>
+              </div>
+              <div class="ambulance-item">
+                <span class="stat-label">En Route (Allotted)</span>
+                <div class="qty-control">
+                  <button type="button" class="btn-qty btn-qty--sm" data-action="dec" data-target="ambulanceEnRoute" aria-label="Decrease">−</button>
+                  <span class="stat-value" id="ambulanceEnRoute">—</span>
+                  <button type="button" class="btn-qty btn-qty--sm" data-action="inc" data-target="ambulanceEnRoute" aria-label="Increase">+</button>
+                </div>
+              </div>
+              <div class="ambulance-item">
+                <span class="stat-label">Total Fleet</span>
+                <span class="stat-value" id="ambulanceTotal">—</span>
+              </div>
+            </div>
+            <div class="status-indicators">
+              <div class="status-dot status-dot--available" title="Available"></div>
+              <div class="status-dot status-dot--busy" title="En route"></div>
+            </div>
+          </div>
+        </article>
+
+        <!-- Blood Bank -->
+        <article class="card card--bloodbank" data-card="bloodbank">
+          <div class="card-header">
+            <span class="card-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M4 7h16M4 12h16M4 17h8"/><path d="M8 22h8"/></svg>
+            </span>
+            <h2><a href="blood-bank.html" class="card-title-link">Blood Bank</a> <span class="card-link-hint">→</span></h2>
+          </div>
+          <div class="card-body">
+            <div class="stat-row stat-row--editable">
+              <span class="stat-label">Units Available</span>
+              <div class="qty-control">
+                <button type="button" class="btn-qty" data-action="dec" data-target="bloodAvailable" aria-label="Decrease">−</button>
+                <span class="stat-value" id="bloodAvailable">—</span>
+                <button type="button" class="btn-qty" data-action="inc" data-target="bloodAvailable" aria-label="Increase">+</button>
+              </div>
+            </div>
+            <div class="stat-row stat-row--editable">
+              <span class="stat-label">Units Allotted</span>
+              <div class="qty-control">
+                <button type="button" class="btn-qty" data-action="dec" data-target="bloodAllotted" aria-label="Decrease">−</button>
+                <span class="stat-value" id="bloodAllotted">—</span>
+                <button type="button" class="btn-qty" data-action="inc" data-target="bloodAllotted" aria-label="Increase">+</button>
+              </div>
+            </div>
+            <div class="stat-row">
+              <span class="stat-label">Total Capacity</span>
+              <span class="stat-value" id="bloodTotal">—</span>
+            </div>
+            <div class="stat-row">
+              <span class="stat-label">Status</span>
+              <span class="badge" id="bloodStatus">—</span>
+            </div>
+            <div class="progress-bar" aria-label="Blood bank stock">
+              <div class="progress-fill" id="bloodProgress" style="width: 0%"></div>
+            </div>
+            <a href="blood-bank.html" class="bloodbank-view-link">View blood group availability →</a>
+          </div>
+        </article>
+      </section>
+
+      <section class="grid grid--secondary">
+        <!-- Road Conditions -->
+        <article class="card card--roads" data-card="roads">
+          <div class="card-header">
+            <span class="card-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19h16M4 15h16M4 11h16M4 7h16M4 3h16"/></svg>
+            </span>
+            <h2>Road Conditions</h2>
+          </div>
+          <div class="card-body">
+            <div class="road-condition" id="roadCondition">
+              <span class="road-indicator road-indicator--flowing"></span>
+              <span class="road-label">—</span>
+            </div>
+            <p class="road-detail" id="roadDetail">Loading...</p>
+            <div class="road-legend">
+              <span><em class="dot dot--green"></em> Clear</span>
+              <span><em class="dot dot--yellow"></em> Moderate</span>
+              <span><em class="dot dot--red"></em> Congested</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- Weather -->
+        <article class="card card--weather" data-card="weather">
+          <div class="card-header">
+            <span class="card-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"/></svg>
+            </span>
+            <h2>Current Weather</h2>
+          </div>
+          <div class="card-body">
+            <div class="weather-main">
+              <span class="weather-temp" id="weatherTemp">—°C</span>
+              <span class="weather-desc" id="weatherDesc">—</span>
+            </div>
+            <div class="weather-details">
+              <div class="weather-item">
+                <span class="stat-label">Humidity</span>
+                <span class="stat-value" id="weatherHumidity">—%</span>
+              </div>
+              <div class="weather-item">
+                <span class="stat-label">Wind</span>
+                <span class="stat-value" id="weatherWind">—</span>
+              </div>
+              <div class="weather-item">
+                <span class="stat-label">Visibility</span>
+                <span class="stat-value" id="weatherVisibility">—</span>
+              </div>
+            </div>
+          </div>
+        </article>
+      </section>
+
+      <!-- Distance & Map — below Weather & Road Conditions -->
+      <section class="grid grid--tertiary">
+        <article class="card card--map card--wide" data-card="distance">
+          <div class="card-header">
+            <span class="card-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            </span>
+            <h2>Distance to Hospital</h2>
+          </div>
+          <div class="card-body card-body--map">
+            <div class="map-placeholder" id="mapPlaceholder" aria-label="Google Maps integration placeholder">
+              <div class="map-placeholder-content">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                <p>Map placeholder — Integrate Google Maps API</p>
+                <p class="map-hint">Add your API key and coordinates in <code>config.js</code></p>
+              </div>
+            </div>
+            <div class="distance-info">
+              <div class="stat-row">
+                <span class="stat-label">Estimated Distance</span>
+                <span class="stat-value" id="distanceValue">—</span>
+              </div>
+              <div class="stat-row">
+                <span class="stat-label">Travel Time</span>
+                <span class="stat-value" id="travelTime">—</span>
+              </div>
+            </div>
+          </div>
+        </article>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <p>MackAthon Hospital Dashboard · Mock data for demonstration · Replace with live APIs for production</p>
+    </footer>
+  </div>
+
+ <script src="config.js"></script>
+<script src="auth.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
